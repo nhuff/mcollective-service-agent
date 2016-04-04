@@ -1,3 +1,5 @@
+require 'open3'
+
 module MCollective
   module Util
     module Service
@@ -29,7 +31,8 @@ module MCollective
         private
         def service_command(cmd)
           servicecmd = @options[:servicecmd] || '/sbin/service'
-          system(servicecmd,@service,cmd)
+          _,status = Open3.capture2e(servicecmd,@service,cmd)
+          status
         end
       end
     end
