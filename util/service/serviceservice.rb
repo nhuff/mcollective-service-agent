@@ -6,25 +6,25 @@ module MCollective
       class ServiceService<Base
         def start
           status = service_command('start')
-          ret = status ? 'running' : 'stopped'
+          ret = status.success? ? 'running' : 'stopped'
           return {status: ret}
         end
 
         def stop
           status = service_command('stop')
-          ret = status ? 'stopped' : 'running'
+          ret = status.success? ? 'stopped' : 'running'
           return {status: ret}
         end
 
         def restart
           status = service_command('restart')
-          return 'running' if status
+          return 'running' if status.success?
           return 'stopped'
         end
 
         def status
           status = service_command('status')
-          return 'running' if status
+          return 'running' if status.success?
           return 'stopped'
         end
 
